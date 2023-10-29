@@ -84,35 +84,58 @@ export default function App() {
       ? parseInt(currency.unmask(rateUsdToBrl))
       : 0;
 
-    const exchangedValueInt = parseInt(
-      (((valueInt * rateCadToUsdInt) / 100) * rateUsdToBrlInt) / 100
+    const exchangedValueUsdInt = parseInt((valueInt * rateCadToUsdInt) / 100);
+    const exchangedValueBrlInt = parseInt(
+      (exchangedValueUsdInt * rateUsdToBrlInt) / 100
     );
 
     let totalTaxInt = 0;
     if (taxInt) totalTaxInt = parseInt(valueInt * (taxInt / 100 / 100));
-    const exchangedTaxInt = parseInt(
-      (((totalTaxInt * rateCadToUsdInt) / 100) * rateUsdToBrlInt) / 100
+    const exchangedTaxUsdInt = parseInt((totalTaxInt * rateCadToUsdInt) / 100);
+    const exchangedTaxBrlInt = parseInt(
+      (exchangedTaxUsdInt * rateUsdToBrlInt) / 100
     );
 
     let totalTipInt = 0;
     if (tipInt) totalTipInt = parseInt(valueInt * (tipInt / 100 / 100));
-    const exchangedTipInt = parseInt(
-      (((totalTipInt * rateCadToUsdInt) / 100) * rateUsdToBrlInt) / 100
+    const exchangedTipUsdInt = parseInt((totalTipInt * rateCadToUsdInt) / 100);
+    const exchangedTipBrlInt = parseInt(
+      (exchangedTipUsdInt * rateUsdToBrlInt) / 100
     );
 
     const exchange = {
-      value: currency.mask(exchangedValueInt.toString()),
-      tax: currency.mask(exchangedTaxInt.toString()),
-      tip: currency.mask(exchangedTipInt.toString()),
-      total: currency.mask(
-        (exchangedValueInt + exchangedTaxInt + exchangedTipInt).toString()
-      ),
+      usd: {
+        value: currency.mask(exchangedValueUsdInt.toString()),
+        tax: currency.mask(exchangedTaxUsdInt.toString()),
+        tip: currency.mask(exchangedTipUsdInt.toString()),
+        total: currency.mask(
+          (
+            exchangedValueUsdInt +
+            exchangedTaxUsdInt +
+            exchangedTipUsdInt
+          ).toString()
+        ),
+      },
+      brl: {
+        value: currency.mask(exchangedValueBrlInt.toString()),
+        tax: currency.mask(exchangedTaxBrlInt.toString()),
+        tip: currency.mask(exchangedTipBrlInt.toString()),
+        total: currency.mask(
+          (
+            exchangedValueBrlInt +
+            exchangedTaxBrlInt +
+            exchangedTipBrlInt
+          ).toString()
+        ),
+      },
     };
 
     if (
       !exchanges.length ||
-      parseInt(currency.unmask(exchanges[0].total)) !==
-        parseInt(currency.unmask(exchange.total))
+      (parseInt(currency.unmask(exchanges[0].usd.total)) !==
+        parseInt(currency.unmask(exchange.usd.total)) &&
+        parseInt(currency.unmask(exchanges[0].brl.total)) !==
+          parseInt(currency.unmask(exchange.brl.total)))
     ) {
       setExchanges((prev) => [exchange, ...prev]);
     }
@@ -301,38 +324,73 @@ export default function App() {
           exchanges.map((exchange, index) => (
             <div
               key={index}
-              className="flex justify-between items-center gap-4 pl-2 bg-white drop-shadow opacity-50 first:opacity-100"
+              className="flex flex-col opacity-50 first:opacity-100"
             >
-              <p className="flex flex-col">
-                <span className="leading-none text-xs font-bold">value</span>
-                <span className="text-left leading-none text-sm">
-                  {exchange.value}
-                </span>
-              </p>
+              <div className="flex justify-between gap-4 pl-2 items-center bg-white drop-shadow">
+                <p className="flex flex-col">
+                  <span className="leading-none text-xs font-bold">value</span>
+                  <span className="text-left leading-none text-sm">
+                    {exchange.usd.value}
+                  </span>
+                </p>
 
-              <p className="flex flex-col">
-                <span className="leading-none text-xs font-bold">tax</span>
-                <span className="text-left leading-none text-sm">
-                  {exchange.tax}
-                </span>
-              </p>
+                <p className="flex flex-col">
+                  <span className="leading-none text-xs font-bold">tax</span>
+                  <span className="text-left leading-none text-sm">
+                    {exchange.usd.tax}
+                  </span>
+                </p>
 
-              <p className="flex flex-col">
-                <span className="leading-none text-xs font-bold">tip</span>
-                <span className="text-left leading-none text-sm">
-                  {exchange.tip}
-                </span>
-              </p>
+                <p className="flex flex-col">
+                  <span className="leading-none text-xs font-bold">tip</span>
+                  <span className="text-left leading-none text-sm">
+                    {exchange.usd.tip}
+                  </span>
+                </p>
 
-              <p className="flex justify-between py-1 px-2 bg-slate-800 min-w-[8rem]">
-                <span className="text-lg font-bold text-slate-500 leading-relaxed">
-                  BRL
-                </span>
+                <p className="flex justify-between py-1 px-2 bg-slate-800 min-w-[8rem]">
+                  <span className="text-lg font-bold text-slate-500 leading-relaxed">
+                    USD
+                  </span>
 
-                <span className="text-left text-lg font-bold text-white leading-relaxed">
-                  {exchange.total}
-                </span>
-              </p>
+                  <span className="text-left text-lg font-bold text-white leading-relaxed">
+                    {exchange.usd.total}
+                  </span>
+                </p>
+              </div>
+
+              <div className="flex justify-between gap-4 pl-2 items-center bg-white drop-shadow">
+                <p className="flex flex-col">
+                  <span className="leading-none text-xs font-bold">value</span>
+                  <span className="text-left leading-none text-sm">
+                    {exchange.brl.value}
+                  </span>
+                </p>
+
+                <p className="flex flex-col">
+                  <span className="leading-none text-xs font-bold">tax</span>
+                  <span className="text-left leading-none text-sm">
+                    {exchange.brl.tax}
+                  </span>
+                </p>
+
+                <p className="flex flex-col">
+                  <span className="leading-none text-xs font-bold">tip</span>
+                  <span className="text-left leading-none text-sm">
+                    {exchange.brl.tip}
+                  </span>
+                </p>
+
+                <p className="flex justify-between py-1 px-2 bg-slate-800 min-w-[8rem]">
+                  <span className="text-lg font-bold text-slate-500 leading-relaxed">
+                    BRL
+                  </span>
+
+                  <span className="text-left text-lg font-bold text-white leading-relaxed">
+                    {exchange.brl.total}
+                  </span>
+                </p>
+              </div>
             </div>
           ))
         ) : (
