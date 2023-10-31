@@ -20,6 +20,8 @@ const currency = {
 };
 
 export default function App() {
+  const [opacity, setOpacity] = useState(true);
+
   const [value, setValue] = useState(
     currency.mask(localStorage.getItem("value") ?? "")
   );
@@ -139,6 +141,9 @@ export default function App() {
           parseInt(currency.unmask(exchange.brl.total)))
     ) {
       setExchanges((prev) => [exchange, ...prev]);
+
+      setOpacity(false);
+      setTimeout(() => setOpacity(true), 200);
     }
   };
 
@@ -152,7 +157,7 @@ export default function App() {
   return (
     <div className="max-w-md mx-auto">
       <div
-        className={`fixed bottom-0 left-0 right-0 bg-white pb-12 pt-[7.75rem] drop-shadow-2xl z-50`}
+        className={`fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 pb-12 pt-[7.75rem] drop-shadow-2xl z-50`}
       >
         <form onSubmit={onExchange} className="container max-w-md">
           <div className="flex justify-between items-center">
@@ -327,13 +332,24 @@ export default function App() {
         </form>
       </div>
 
-      <div className="mb-[26rem] flex flex-col gap-3 py-3 relative px-3">
+      <div className="mb-[28rem] flex flex-col gap-3 py-3 relative px-3">
         {exchanges.length ? (
           exchanges.map((exchange, index) => (
             <div
               key={index}
-              className="flex flex-col opacity-50 first:opacity-100 first:fixed first:z-50 first:left-3 first:right-3 first:bottom-[19.25rem]"
+              className={`${
+                opacity ? " first:opacity-100" : "  first:opacity-25"
+              } opacity-50 transition ease-in-out flex flex-col  first:fixed first:z-50 first:left-3 first:right-3 first:bottom-[19.25rem]`}
             >
+              {index !== 0 && (
+                <>
+                  <Separator />
+                  <h2 class="italic mb-2 mt-1 ml-3">
+                    exchange #{exchanges?.length - index}
+                  </h2>
+                </>
+              )}
+
               <div className="flex justify-between gap-4 pl-2 items-center bg-white drop-shadow">
                 <p className="flex flex-col w-[30%]">
                   <span className="leading-none text-xs font-bold">value</span>
