@@ -28,8 +28,6 @@ const currency = {
 };
 
 export default function App() {
-  const { height } = useVisualViewport();
-
   const [value, setValue] = useState(
     currency.mask(localStorage.getItem("value") ?? "")
   );
@@ -160,7 +158,7 @@ export default function App() {
   return (
     <div className="max-w-md mx-auto">
       <div
-        className={`fixed bottom-0 left-0 right-0 bg-white pb-8 drop-shadow-2xl z-50`}
+        className={`fixed bottom-0 left-0 right-0 bg-white pb-12 drop-shadow-2xl z-50`}
       >
         <div className="container max-w-md">
           <div className="flex justify-between items-center">
@@ -330,12 +328,12 @@ export default function App() {
         </div>
       </div>
 
-      <div className="mb-[18.25rem] flex flex-col gap-3 py-3 relative">
+      <div className="mb-[19.25rem] flex flex-col gap-3 pb-3 relative [&>*:nth-child(2)]:mt-[7.5rem]">
         {exchanges.length ? (
           exchanges.map((exchange, index) => (
             <div
               key={index}
-              className="flex flex-col opacity-50 first:opacity-100"
+              className="flex flex-col opacity-50 first:opacity-100 first:fixed first:z-50 first:w-full first:max-w-md"
             >
               <div className="flex justify-between gap-4 pl-2 items-center bg-white drop-shadow">
                 <p className="flex flex-col w-[30%]">
