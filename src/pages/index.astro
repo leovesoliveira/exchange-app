@@ -1,17 +1,18 @@
 ---
-import App from '../components/App'
-import '../globals.css'
+import App from "../components/App";
+import "../globals.css";
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Exchange App</title>
-	</head>
-	<body class="bg-slate-50">
-		<App client:only />
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Exchange App</title>
+  </head>
+  <body class="bg-slate-50">
+    <App client:only />
+  </body>
 </html>
