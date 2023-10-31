@@ -327,7 +327,7 @@ export default function App() {
         </form>
       </div>
 
-      <div className="mb-[26rem] flex flex-col gap-3 pb-3 relative px-3">
+      <div className="mb-[26rem] flex flex-col gap-3 py-3 relative px-3">
         {exchanges.length ? (
           exchanges.map((exchange, index) => (
             <div
