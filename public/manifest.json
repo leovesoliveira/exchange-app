@@ -1,5 +1,7 @@
 {
   "name": "Exchange App",
+  "start_url": ".",
+  "display": "standalone",
   "icons": [
     {
       "src": "./512.png",
