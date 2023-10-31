@@ -65,7 +65,9 @@ export default function App() {
     localStorage.setItem("exchanges", JSON.stringify(exchanges));
   }, [exchanges]);
 
-  const onExchange = () => {
+  const onExchange = (event) => {
+    event.preventDefault();
+
     if (!parseInt(currency.unmask(value))) return;
     const valueInt = value ? parseInt(currency.unmask(value)) : 0;
     const taxInt = tax ? parseInt(currency.unmask(tax)) : 0;
@@ -152,7 +154,7 @@ export default function App() {
       <div
         className={`fixed bottom-0 left-0 right-0 bg-white pb-12 pt-[7.75rem] drop-shadow-2xl z-50`}
       >
-        <div className="container max-w-md">
+        <form onSubmit={onExchange} className="container max-w-md">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl font-bold text-center my-4 tracking-tighter text-slate-800 italic">
               exchange app
@@ -314,10 +316,10 @@ export default function App() {
             </div>
           </div>
 
-          <Button className="mt-4 w-full" onClick={onExchange}>
+          <Button className="mt-4 w-full" type="submit">
             exchange
           </Button>
-        </div>
+        </form>
       </div>
 
       <div className="mb-[26rem] flex flex-col gap-3 pb-3 relative px-3">
