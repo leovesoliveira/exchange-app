@@ -11,6 +11,7 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { Separator } from "./ui/separator";
+import { useVisualViewport } from "../hooks/use-visual-viewort";
 
 const currency = {
   mask: (value) => {
@@ -27,6 +28,8 @@ const currency = {
 };
 
 export default function App() {
+  const { height } = useVisualViewport();
+
   const [value, setValue] = useState(
     currency.mask(localStorage.getItem("value") ?? "")
   );
@@ -104,6 +107,12 @@ export default function App() {
     );
 
     const exchange = {
+      cad: {
+        value: currency.mask(valueInt.toString()),
+        tax: currency.mask(totalTaxInt.toString()),
+        tip: currency.mask(totalTipInt.toString()),
+        total: currency.mask((valueInt + totalTaxInt + totalTipInt).toString()),
+      },
       usd: {
         value: currency.mask(exchangedValueUsdInt.toString()),
         tax: currency.mask(exchangedTaxUsdInt.toString()),
@@ -150,7 +159,9 @@ export default function App() {
 
   return (
     <div className="max-w-md mx-auto">
-      <div className="fixed bottom-0 left-0 right-0 bg-white pb-8 drop-shadow-2xl z-50">
+      <div
+        className={`fixed bottom-0 left-0 right-0 bg-white pb-8 drop-shadow-2xl z-50`}
+      >
         <div className="container max-w-md">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl font-bold text-center my-4 tracking-tighter text-slate-800 italic">
@@ -319,7 +330,7 @@ export default function App() {
         </div>
       </div>
 
-      <div className="mb-[18.25rem] flex flex-col gap-2 py-4 relative">
+      <div className="mb-[18.25rem] flex flex-col gap-3 py-3 relative">
         {exchanges.length ? (
           exchanges.map((exchange, index) => (
             <div
@@ -327,67 +338,100 @@ export default function App() {
               className="flex flex-col opacity-50 first:opacity-100"
             >
               <div className="flex justify-between gap-4 pl-2 items-center bg-white drop-shadow">
-                <p className="flex flex-col">
+                <p className="flex flex-col w-[30%]">
                   <span className="leading-none text-xs font-bold">value</span>
                   <span className="text-left leading-none text-sm">
-                    {exchange.usd.value}
+                    {exchange?.cad?.value}
                   </span>
                 </p>
 
-                <p className="flex flex-col">
+                <p className="flex flex-col w-[30%]">
                   <span className="leading-none text-xs font-bold">tax</span>
                   <span className="text-left leading-none text-sm">
-                    {exchange.usd.tax}
+                    {exchange?.cad?.tax}
                   </span>
                 </p>
 
-                <p className="flex flex-col">
+                <p className="flex flex-col w-[30%]">
                   <span className="leading-none text-xs font-bold">tip</span>
                   <span className="text-left leading-none text-sm">
-                    {exchange.usd.tip}
+                    {exchange?.cad?.tip}
                   </span>
                 </p>
 
-                <p className="flex justify-between py-1 px-2 bg-slate-800 min-w-[8rem]">
-                  <span className="text-lg font-bold text-slate-500 leading-relaxed">
-                    USD
+                <p className="flex justify-between py-1 px-2 bg-slate-100 min-w-[8rem] flex-shrink-0">
+                  <span className="text-lg font-bold text-[rgba(227,6,22,0.5)]">
+                    CAD
                   </span>
 
-                  <span className="text-left text-lg font-bold text-white leading-relaxed">
-                    {exchange.usd.total}
+                  <span className="text-left text-lg font-bold text-[rgba(227,6,22,1)]">
+                    {exchange?.cad?.total}
                   </span>
                 </p>
               </div>
 
               <div className="flex justify-between gap-4 pl-2 items-center bg-white drop-shadow">
-                <p className="flex flex-col">
+                <p className="flex flex-col w-[30%]">
                   <span className="leading-none text-xs font-bold">value</span>
                   <span className="text-left leading-none text-sm">
-                    {exchange.brl.value}
+                    {exchange?.usd?.value}
                   </span>
                 </p>
 
-                <p className="flex flex-col">
+                <p className="flex flex-col w-[30%]">
                   <span className="leading-none text-xs font-bold">tax</span>
                   <span className="text-left leading-none text-sm">
-                    {exchange.brl.tax}
+                    {exchange?.usd?.tax}
                   </span>
                 </p>
 
-                <p className="flex flex-col">
+                <p className="flex flex-col w-[30%]">
                   <span className="leading-none text-xs font-bold">tip</span>
                   <span className="text-left leading-none text-sm">
-                    {exchange.brl.tip}
+                    {exchange?.usd?.tip}
                   </span>
                 </p>
 
-                <p className="flex justify-between py-1 px-2 bg-slate-800 min-w-[8rem]">
-                  <span className="text-lg font-bold text-slate-500 leading-relaxed">
+                <p className="flex justify-between py-1 px-2 bg-slate-100 min-w-[8rem] flex-shrink-0">
+                  <span className="text-lg font-bold text-[rgba(1,42,123,0.5)]">
+                    USD
+                  </span>
+
+                  <span className="text-left text-lg font-bold text-[rgba(1,42,123,1)]">
+                    {exchange?.usd?.total}
+                  </span>
+                </p>
+              </div>
+
+              <div className="flex justify-between gap-4 pl-2 items-center bg-white drop-shadow">
+                <p className="flex flex-col w-[30%]">
+                  <span className="leading-none text-xs font-bold">value</span>
+                  <span className="text-left leading-none text-sm">
+                    {exchange?.brl?.value}
+                  </span>
+                </p>
+
+                <p className="flex flex-col w-[30%]">
+                  <span className="leading-none text-xs font-bold">tax</span>
+                  <span className="text-left leading-none text-sm">
+                    {exchange?.brl?.tax}
+                  </span>
+                </p>
+
+                <p className="flex flex-col w-[30%]">
+                  <span className="leading-none text-xs font-bold">tip</span>
+                  <span className="text-left leading-none text-sm">
+                    {exchange?.brl?.tip}
+                  </span>
+                </p>
+
+                <p className="flex justify-between py-1 px-2 bg-slate-100 min-w-[8rem] flex-shrink-0">
+                  <span className="text-lg font-bold text-[rgba(0,151,57,0.5)]">
                     BRL
                   </span>
 
-                  <span className="text-left text-lg font-bold text-white leading-relaxed">
-                    {exchange.brl.total}
+                  <span className="text-left text-lg font-bold text-[rgba(0,151,57,1)]">
+                    {exchange?.brl?.total}
                   </span>
                 </p>
               </div>
