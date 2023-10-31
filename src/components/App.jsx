@@ -195,9 +195,10 @@ export default function App() {
                       id="cadToUsd"
                       placeholder="0,00"
                       value={rateCadToUsd}
-                      onInput={(event) =>
-                        setRateCadToUsd(currency.mask(event.target.value))
-                      }
+                      onInput={(event) => {
+                        setRateCadToUsd(currency.mask(event.target.value));
+                        sendCursorToEnd(event);
+                      }}
                       onFocus={sendCursorToEnd}
                       onClick={sendCursorToEnd}
                       inputMode="numeric"
@@ -222,9 +223,10 @@ export default function App() {
                       id="cadToUsd"
                       placeholder="0,00"
                       value={rateUsdToBrl}
-                      onInput={(event) =>
-                        setRateUsdToBrl(currency.mask(event.target.value))
-                      }
+                      onInput={(event) => {
+                        setRateUsdToBrl(currency.mask(event.target.value));
+                        sendCursorToEnd(event);
+                      }}
                       onFocus={sendCursorToEnd}
                       onClick={sendCursorToEnd}
                       inputMode="numeric"
@@ -258,9 +260,10 @@ export default function App() {
                   id="value"
                   placeholder="0,00"
                   value={value}
-                  onInput={(event) =>
-                    setValue(currency.mask(event.target.value))
-                  }
+                  onInput={(event) => {
+                    setValue(currency.mask(event.target.value));
+                    sendCursorToEnd(event);
+                  }}
                   onFocus={sendCursorToEnd}
                   onClick={sendCursorToEnd}
                   inputMode="numeric"
@@ -281,9 +284,10 @@ export default function App() {
                   id="tax"
                   placeholder="0,00"
                   value={tax}
-                  onChange={(event) =>
-                    setTax(currency.mask(event.target.value))
-                  }
+                  onChange={(event) => {
+                    setTax(currency.mask(event.target.value));
+                    sendCursorToEnd(event);
+                  }}
                   onFocus={sendCursorToEnd}
                   onClick={sendCursorToEnd}
                   inputMode="numeric"
@@ -304,9 +308,10 @@ export default function App() {
                   id="tip"
                   placeholder="0,00"
                   value={tip}
-                  onChange={(event) =>
-                    setTip(currency.mask(event.target.value))
-                  }
+                  onChange={(event) => {
+                    setTip(currency.mask(event.target.value));
+                    sendCursorToEnd(event);
+                  }}
                   onFocus={sendCursorToEnd}
                   onClick={sendCursorToEnd}
                   inputMode="numeric"
