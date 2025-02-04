@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEventHandler } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -67,11 +67,11 @@ export default function App() {
     localStorage.setItem("exchanges", JSON.stringify(exchanges));
   }, [exchanges]);
 
-  const onExchange = (event) => {
+  const onExchange: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
     if (!parseInt(currency.unmask(value))) return;
-    const valueInt = value ? parseInt(currency.unmask(value)) : 0;
+    const valueInt: number = value ? parseInt(currency.unmask(value)) : 0;
     const taxInt = tax ? parseInt(currency.unmask(tax)) : 0;
     const tipInt = tip ? parseInt(currency.unmask(tip)) : 0;
     const rateCadToUsdInt = rateCadToUsd
@@ -81,24 +81,18 @@ export default function App() {
       ? parseInt(currency.unmask(rateUsdToBrl))
       : 0;
 
-    const exchangedValueUsdInt = parseInt((valueInt * rateCadToUsdInt) / 100);
-    const exchangedValueBrlInt = parseInt(
-      (exchangedValueUsdInt * rateUsdToBrlInt) / 100
-    );
+    const exchangedValueUsdInt = (valueInt * rateCadToUsdInt) / 100;
+    const exchangedValueBrlInt = (exchangedValueUsdInt * rateUsdToBrlInt) / 100;
 
     let totalTaxInt = 0;
-    if (taxInt) totalTaxInt = parseInt(valueInt * (taxInt / 100 / 100));
-    const exchangedTaxUsdInt = parseInt((totalTaxInt * rateCadToUsdInt) / 100);
-    const exchangedTaxBrlInt = parseInt(
-      (exchangedTaxUsdInt * rateUsdToBrlInt) / 100
-    );
+    if (taxInt) totalTaxInt = valueInt * (taxInt / 100 / 100);
+    const exchangedTaxUsdInt = (totalTaxInt * rateCadToUsdInt) / 100;
+    const exchangedTaxBrlInt = (exchangedTaxUsdInt * rateUsdToBrlInt) / 100;
 
     let totalTipInt = 0;
-    if (tipInt) totalTipInt = parseInt(valueInt * (tipInt / 100 / 100));
-    const exchangedTipUsdInt = parseInt((totalTipInt * rateCadToUsdInt) / 100);
-    const exchangedTipBrlInt = parseInt(
-      (exchangedTipUsdInt * rateUsdToBrlInt) / 100
-    );
+    if (tipInt) totalTipInt = valueInt * (tipInt / 100 / 100);
+    const exchangedTipUsdInt = (totalTipInt * rateCadToUsdInt) / 100;
+    const exchangedTipBrlInt = (exchangedTipUsdInt * rateUsdToBrlInt) / 100;
 
     const exchange = {
       cad: {
@@ -201,7 +195,9 @@ export default function App() {
                       placeholder="0,00"
                       value={rateCadToUsd}
                       onInput={(event) => {
-                        setRateCadToUsd(currency.mask(event.target.value));
+                        setRateCadToUsd(
+                          currency.mask(event.currentTarget.value)
+                        );
                         sendCursorToEnd(event);
                       }}
                       onFocus={sendCursorToEnd}
@@ -229,7 +225,9 @@ export default function App() {
                       placeholder="0,00"
                       value={rateUsdToBrl}
                       onInput={(event) => {
-                        setRateUsdToBrl(currency.mask(event.target.value));
+                        setRateUsdToBrl(
+                          currency.mask(event.currentTarget.value)
+                        );
                         sendCursorToEnd(event);
                       }}
                       onFocus={sendCursorToEnd}
@@ -266,7 +264,7 @@ export default function App() {
                   placeholder="0,00"
                   value={value}
                   onInput={(event) => {
-                    setValue(currency.mask(event.target.value));
+                    setValue(currency.mask(event.currentTarget.value));
                     sendCursorToEnd(event);
                   }}
                   onFocus={sendCursorToEnd}
@@ -344,7 +342,7 @@ export default function App() {
               {index !== 0 && (
                 <>
                   <Separator />
-                  <h2 class="italic mb-2 mt-1 ml-3">
+                  <h2 className="italic mb-2 mt-1 ml-3">
                     exchange #{exchanges?.length - index}
                   </h2>
                 </>
