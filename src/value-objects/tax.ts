@@ -1,0 +1,30 @@
+import { Amount } from "./amount";
+
+export class Tax {
+  readonly #amount: Amount;
+  readonly #percent: Amount;
+
+  constructor(amount: Amount, percent: Amount) {
+    this.#amount = amount;
+    this.#percent = percent;
+  }
+
+  static fromJSON(json: any): Tax {
+    return new Tax(Amount.fromJSON(json.amount), Amount.fromJSON(json.percent));
+  }
+
+  toJSON() {
+    return {
+      amount: this.#amount.toJSON(),
+      percent: this.#percent.toJSON(),
+    };
+  }
+
+  get amount(): Amount {
+    return this.#amount;
+  }
+
+  get percent(): Amount {
+    return this.#percent;
+  }
+}
