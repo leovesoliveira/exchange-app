@@ -1,17 +1,20 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import { parseEnum } from "../helpers";
-import { useExchangeStore } from "../stores/exchange-store";
-import { Amount } from "../value-objects/amount";
-import { Currency } from "../value-objects/currency";
-import { Quote } from "../value-objects/quote";
+import { parseEnum } from "@helpers/parse-enum";
+import { firstExchangeSelector } from "@stores/exchange/exchange-selectors";
+import { useExchangeStore } from "@stores/exchange/exchange-store";
+import { Amount } from "@value-objects/amount";
+import { Currency } from "@value-objects/currency";
+import { Quote } from "@value-objects/quote";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 
 type FromCurrencyFormData = {
   fromCurrency: string;
 };
 
 type QuotesFormData = {
-  toCurrency: string;
-  toAmount: string;
+  quotes: {
+    toCurrency: string;
+    toAmount: string;
+  }[];
 };
 
 type CalculateFormData = {
@@ -31,6 +34,7 @@ export default function App() {
     clearExchanges,
     calculeExchange,
   } = useExchangeStore();
+  const firstExchange = useExchangeStore(firstExchangeSelector);
 
   const fromCurrencyForm = useForm<FromCurrencyFormData>({
     defaultValues: {
@@ -40,10 +44,18 @@ export default function App() {
 
   const quotesForm = useForm<QuotesFormData>({
     defaultValues: {
-      toCurrency:
-        quotes && quotes.length > 0 ? quotes[0].toCurrency.toString() : "",
-      toAmount: quotes && quotes.length > 0 ? quotes[0].amount.toString() : "",
+      quotes:
+        quotes && quotes.length > 0
+          ? quotes.map((quote) => ({
+              toCurrency: quote.toCurrency.toString(),
+              toAmount: quote.amount.toString(),
+            }))
+          : [],
     },
+  });
+  const { fields, append, remove } = useFieldArray({
+    name: "quotes",
+    control: quotesForm.control,
   });
 
   const calculateForm = useForm<CalculateFormData>({
@@ -63,21 +75,17 @@ export default function App() {
   };
 
   const handleQuote: SubmitHandler<QuotesFormData> = (data) => {
-    const toCurrency = parseEnum(Currency, data.toCurrency);
-    const toAmount = new Amount(data.toAmount);
+    if (!fromCurrency) {
+      throw new Error("From currency is not set");
+    }
 
-    setQuotes([
-      new Quote(
-        parseEnum(Currency, fromCurrency),
-        toCurrency,
-        new Amount(data.toAmount),
-      ),
-    ]);
-
-    quotesForm.reset({
-      toCurrency: toCurrency.toString(),
-      toAmount: toAmount.toString(),
+    const quotes = data.quotes.map((quote) => {
+      const toCurrency = parseEnum(Currency, quote.toCurrency);
+      const toAmount = new Amount(quote.toAmount);
+      return new Quote(fromCurrency, toCurrency, toAmount);
     });
+
+    setQuotes(quotes);
   };
 
   const handleCalculate: SubmitHandler<CalculateFormData> = (data) => {
@@ -92,62 +100,165 @@ export default function App() {
     <div>
       <h1 className="text-2xl font-bold">ExchangeApp</h1>
 
-      <form onSubmit={fromCurrencyForm.handleSubmit(handleFromCurrency)}>
+      <form
+        onSubmit={fromCurrencyForm.handleSubmit(handleFromCurrency)}
+        className="my-4"
+      >
         <div>
-          <label htmlFor="fromCurrency">FROM</label>
+          <label htmlFor="fromCurrency">FROM </label>
           <input
             id="fromCurrency"
             type="text"
+            className="border border-black"
             {...fromCurrencyForm.register("fromCurrency")}
           />
         </div>
-        <button>Save</button>
+        <button className="px-2 bg-gray-300">Save</button>
       </form>
 
       <hr />
 
-      <form onSubmit={quotesForm.handleSubmit(handleQuote)}>
-        <div>
-          <label htmlFor="toCurrency">TO</label>
-          <input
-            id="toCurrency"
-            type="text"
-            {...quotesForm.register("toCurrency")}
-          />
-        </div>
+      <form onSubmit={quotesForm.handleSubmit(handleQuote)} className="my-4">
+        {fields.map((field, index) => (
+          <div key={field.id} className="my-4">
+            <div>
+              <label htmlFor={`toCurrency${index}`}>TO</label>
+              <input
+                id={`toCurrency${index}`}
+                type="text"
+                className="border border-black"
+                {...quotesForm.register(`quotes.${index}.toCurrency`)}
+              />
+            </div>
 
-        <div>
-          <label htmlFor="toAmount">AMOUNT</label>
-          <input
-            id="toAmount"
-            type="text"
-            {...quotesForm.register("toAmount")}
-          />
-        </div>
+            <div>
+              <label htmlFor={`toAmount${index}`}>AMOUNT</label>
+              <input
+                id={`toAmount${index}`}
+                type="text"
+                className="border border-black"
+                {...quotesForm.register(`quotes.${index}.toAmount`)}
+              />
+            </div>
 
-        <button>Save</button>
+            <button
+              type="button"
+              onClick={() => remove(index)}
+              className="px-2 bg-gray-300"
+            >
+              Remove
+            </button>
+          </div>
+        ))}
+
+        <button
+          type="button"
+          onClick={() => append({ toCurrency: "", toAmount: "" })}
+          className="px-2 bg-gray-300"
+        >
+          Add
+        </button>
+
+        <button type="submit" className="px-2 bg-gray-300">
+          Save
+        </button>
       </form>
 
       <hr />
+      {firstExchange && (
+        <div className="my-4">
+          <hr />
+          <hr />
+          <p>{firstExchange.fromCurrency.toString()}</p>
+          <p>{firstExchange.fromAmount.toString()}</p>
+          <p>
+            <span>TAX: </span>
+            {firstExchange.fromTax
+              ? firstExchange.fromTax.amount.toString()
+              : "0.0"}
+            <span> / </span>
+            {firstExchange.fromTax
+              ? firstExchange.fromTax.percent.toString()
+              : "0"}
+            %
+          </p>
+          <p>
+            <span>TIP: </span>
+            {firstExchange.fromTip
+              ? firstExchange.fromTip.amount.toString()
+              : "0.0"}
+            <span> / </span>
+            {firstExchange.fromTip
+              ? firstExchange.fromTip.percent.toString()
+              : "0"}
+            %
+          </p>
+          <p>TOTAL: {firstExchange.total.toString()}</p>
+          <ul>
+            {firstExchange.conversions.map((conversion) => (
+              <li
+                key={`${firstExchange.fromCurrency.toString()}-${conversion.currency.toString()}-${conversion.amount.toString()}-${firstExchange.exchangedAt.toISOString()}`}
+              >
+                <hr />
+                <p>TO {conversion.currency.toString()}</p>
+                <p>{conversion.amount.toString()}</p>
+                <p>
+                  <span>TAX: </span>
+                  {conversion.tax ? conversion.tax.amount.toString() : "0.0"}
+                  <span> / </span>
+                  {conversion.tax ? conversion.tax.percent.toString() : "0"}%
+                </p>
+                <p>
+                  <span>TIP: </span>
+                  {conversion.tip ? conversion.tip.amount.toString() : "0.0"}
+                  <span> / </span>
+                  {conversion.tip ? conversion.tip.percent.toString() : "0"}%
+                </p>
+                <p>TOTAL: {conversion.total.toString()}</p>
+                <hr />
+              </li>
+            ))}
+          </ul>
+          <hr />
+          <hr />
+        </div>
+      )}
 
-      <form onSubmit={calculateForm.handleSubmit(handleCalculate)}>
+      <form
+        onSubmit={calculateForm.handleSubmit(handleCalculate)}
+        className="my-4"
+      >
         <div>
           <label htmlFor="amount">Amount</label>
           <input
             id="amount"
             type="text"
+            className="border border-black"
             {...calculateForm.register("amount")}
           />
         </div>
+
         <div>
           <label htmlFor="tax">Tax</label>
-          <input id="tax" type="text" {...calculateForm.register("tax")} />
+          <input
+            id="tax"
+            type="text"
+            className="border border-black"
+            {...calculateForm.register("tax")}
+          />
         </div>
+
         <div>
           <label htmlFor="tip">Tip</label>
-          <input id="tip" type="text" {...calculateForm.register("tip")} />
+          <input
+            id="tip"
+            type="text"
+            className="border border-black"
+            {...calculateForm.register("tip")}
+          />
         </div>
-        <button>Calculate</button>
+
+        <button className="px-2 bg-gray-300">Calculate</button>
       </form>
 
       <hr />
@@ -160,6 +271,7 @@ export default function App() {
             {exchanges.map((exchange) => (
               <li
                 key={`${exchange.fromCurrency.toString()}-${exchange.fromAmount.toString()}-${exchange.exchangedAt.toISOString()}`}
+                className="my-4"
               >
                 <hr />
                 <hr />

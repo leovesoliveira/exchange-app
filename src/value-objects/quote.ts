@@ -1,4 +1,4 @@
-import { parseEnum } from "../helpers";
+import { parseEnum } from "@helpers/parse-enum";
 import { Amount } from "./amount";
 import { Currency } from "./currency";
 

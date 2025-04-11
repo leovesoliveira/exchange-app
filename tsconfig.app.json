@@ -21,6 +21,15 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+
+    "types": ["node"],
+    "baseUrl": "./src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@helpers/*": ["helpers/*"],
+      "@stores/*": ["stores/*"],
+      "@value-objects/*": ["value-objects/*"]
+    }
   },
   "include": ["src"]
 }
