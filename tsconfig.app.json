@@ -27,6 +27,7 @@
     "paths": {
       "@components/*": ["components/*"],
       "@helpers/*": ["helpers/*"],
+      "@i18n/*": ["i18n/*"],
       "@stores/*": ["stores/*"],
       "@value-objects/*": ["value-objects/*"]
     }

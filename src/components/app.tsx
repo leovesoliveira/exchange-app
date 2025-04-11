@@ -1,10 +1,12 @@
 import { parseEnum } from "@helpers/parse-enum";
+import { languages } from "@i18n/languages";
 import { firstExchangeSelector } from "@stores/exchange/exchange-selectors";
 import { useExchangeStore } from "@stores/exchange/exchange-store";
 import { Amount } from "@value-objects/amount";
 import { Currency } from "@value-objects/currency";
 import { Quote } from "@value-objects/quote";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 type FromCurrencyFormData = {
   fromCurrency: string;
@@ -24,6 +26,8 @@ type CalculateFormData = {
 };
 
 export default function App() {
+  const { t, i18n } = useTranslation();
+
   const {
     fromCurrency,
     setFromCurrency,
@@ -98,7 +102,19 @@ export default function App() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold">ExchangeApp</h1>
+      <h1 className="text-2xl font-bold">{t("appName")}</h1>
+
+      <div>
+        {languages.map((language) => (
+          <button
+            key={language.code}
+            onClick={() => i18n.changeLanguage(language.code)}
+            className="px-2 bg-gray-300"
+          >
+            {language.name}
+          </button>
+        ))}
+      </div>
 
       <form
         onSubmit={fromCurrencyForm.handleSubmit(handleFromCurrency)}
