@@ -1,12 +1,17 @@
 import { parseEnum } from "@helpers/parse-enum";
 import { languages } from "@i18n/languages";
-import { firstExchangeSelector } from "@stores/exchange/exchange-selectors";
+import {
+  exchangesWithoutFirstSelector,
+  firstExchangeSelector,
+} from "@stores/exchange/exchange-selectors";
 import { useExchangeStore } from "@stores/exchange/exchange-store";
 import { Amount } from "@value-objects/amount";
 import { Currency } from "@value-objects/currency";
 import { Quote } from "@value-objects/quote";
+import { Uuid } from "@value-objects/uuid";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useShallow } from "zustand/shallow";
 
 type FromCurrencyFormData = {
   fromCurrency: string;
@@ -34,11 +39,12 @@ export default function App() {
     quotes,
     setQuotes,
     clearQuotes,
-    exchanges,
     clearExchanges,
     calculeExchange,
+    removeExchange,
   } = useExchangeStore();
   const firstExchange = useExchangeStore(firstExchangeSelector);
+  const exchanges = useExchangeStore(useShallow(exchangesWithoutFirstSelector));
 
   const fromCurrencyForm = useForm<FromCurrencyFormData>({
     defaultValues: {
@@ -97,7 +103,7 @@ export default function App() {
     const tax = parseFloat(data.tax) > 0 ? new Amount(data.tax) : null;
     const tip = parseFloat(data.tip) > 0 ? new Amount(data.tip) : null;
 
-    calculeExchange(amount, tax, tip);
+    calculeExchange(Uuid.generate(), amount, tax, tip);
   };
 
   return (
@@ -291,6 +297,13 @@ export default function App() {
               >
                 <hr />
                 <hr />
+                <button
+                  type="button"
+                  onClick={() => removeExchange(exchange.id)}
+                  className="px-2 bg-gray-300"
+                >
+                  Remove
+                </button>
                 <p>{exchange.fromCurrency.toString()}</p>
                 <p>{exchange.fromAmount.toString()}</p>
                 <p>

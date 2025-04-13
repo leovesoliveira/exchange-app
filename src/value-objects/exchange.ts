@@ -3,8 +3,10 @@ import { Amount } from "./amount";
 import { Conversion } from "./conversion";
 import { Currency } from "./currency";
 import { Tax } from "./tax";
+import { Uuid } from "./uuid";
 
 export class Exchange {
+  readonly #id: Uuid;
   readonly #fromCurrency: Currency;
   readonly #fromAmount: Amount;
   readonly #fromTax: Tax | null;
@@ -13,6 +15,7 @@ export class Exchange {
   readonly #exchangedAt: Date;
 
   constructor(
+    id: Uuid,
     fromCurrency: Currency,
     fromAmount: Amount,
     fromTax: Tax | null,
@@ -20,6 +23,7 @@ export class Exchange {
     conversions: Conversion[],
     date: Date = new Date(),
   ) {
+    this.#id = id;
     this.#fromCurrency = fromCurrency;
     this.#fromAmount = fromAmount;
     this.#fromTax = fromTax;
@@ -30,6 +34,7 @@ export class Exchange {
 
   static fromJSON(json: any): Exchange {
     return new Exchange(
+      Uuid.fromJSON(json.id),
       parseEnum(Currency, json.fromCurrency),
       Amount.fromJSON(json.fromAmount),
       json.fromTax ? Tax.fromJSON(json.fromTax) : null,
@@ -43,6 +48,7 @@ export class Exchange {
 
   toJSON() {
     return {
+      id: this.#id.toJSON(),
       fromCurrency: this.#fromCurrency.toString(),
       fromAmount: this.#fromAmount.toJSON(),
       fromTax: this.#fromTax?.toJSON(),
@@ -50,6 +56,10 @@ export class Exchange {
       conversions: this.#conversions.map((conversion) => conversion.toJSON()),
       exchangedAt: this.#exchangedAt,
     };
+  }
+
+  get id(): Uuid {
+    return this.#id;
   }
 
   get fromCurrency(): Currency {

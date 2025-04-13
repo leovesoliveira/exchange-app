@@ -13,6 +13,11 @@ export class Tax {
     return new Tax(Amount.fromJSON(json.amount), Amount.fromJSON(json.percent));
   }
 
+  static calculate(value: Amount, taxPercent: Amount): Tax {
+    const taxAmount = value.percentage(taxPercent);
+    return new Tax(taxAmount, taxPercent);
+  }
+
   toJSON() {
     return {
       amount: this.#amount.toJSON(),

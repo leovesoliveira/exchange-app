@@ -14,5 +14,6 @@ export const useExchangeStore = create<ExchangeStore>()(
     setExchanges: actions.exchanges.set(set),
     clearExchanges: actions.exchanges.clear(set),
     calculeExchange: actions.exchanges.calculate(set),
+    removeExchange: actions.exchanges.remove(set),
   })),
 );
