@@ -1,14 +1,14 @@
-import { parseEnum } from "@helpers/parse-enum";
-import { languages } from "@i18n/languages";
+import { parseEnum } from "@/helpers";
+import { languages } from "@/i18n/languages";
 import {
   exchangesWithoutFirstSelector,
   firstExchangeSelector,
-} from "@stores/exchange/exchange-selectors";
-import { useExchangeStore } from "@stores/exchange/exchange-store";
-import { Amount } from "@value-objects/amount";
-import { Currency } from "@value-objects/currency";
-import { Quote } from "@value-objects/quote";
-import { Uuid } from "@value-objects/uuid";
+} from "@/stores/exchange/exchange-selectors";
+import { useExchangeStore } from "@/stores/exchange/exchange-store";
+import { Amount } from "@/value-objects/amount";
+import { Currency } from "@/value-objects/currency";
+import { Quote } from "@/value-objects/quote";
+import { Uuid } from "@/value-objects/uuid";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useShallow } from "zustand/shallow";

@@ -1,9 +1,9 @@
-import { Amount } from "@value-objects/amount";
-import { Conversion } from "@value-objects/conversion";
-import { Currency } from "@value-objects/currency";
-import { Exchange } from "@value-objects/exchange";
-import { Tax } from "@value-objects/tax";
-import { Uuid } from "@value-objects/uuid";
+import { Amount } from "@/value-objects/amount";
+import { Conversion } from "@/value-objects/conversion";
+import { Currency } from "@/value-objects/currency";
+import { Exchange } from "@/value-objects/exchange";
+import { Tax } from "@/value-objects/tax";
+import { Uuid } from "@/value-objects/uuid";
 
 describe("Exchange", () => {
   const conversionJSON = {

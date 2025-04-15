@@ -1,5 +1,5 @@
-import { Amount } from "@value-objects/amount";
-import { Tax } from "@value-objects/tax";
+import { Amount } from "@/value-objects/amount";
+import { Tax } from "@/value-objects/tax";
 
 describe("Tax", () => {
   it("should create a Tax instance with amount and percent", () => {

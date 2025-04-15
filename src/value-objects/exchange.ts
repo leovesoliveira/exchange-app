@@ -1,4 +1,4 @@
-import { parseEnum } from "@helpers/parse-enum";
+import { parseEnum } from "@/helpers";
 import { Amount } from "./amount";
 import { Conversion } from "./conversion";
 import { Currency } from "./currency";
@@ -32,21 +32,7 @@ export class Exchange {
     this.#exchangedAt = date;
   }
 
-  static fromJSON(json: {
-    id: string;
-    fromCurrency: string;
-    fromAmount: string;
-    fromTax?: { amount: string; percent: string };
-    fromTip?: { amount: string; percent: string };
-    conversions: {
-      currency: string;
-      rate: string;
-      amount: string;
-      tax?: { amount: string; percent: string };
-      tip?: { amount: string; percent: string };
-    }[];
-    exchangedAt: string;
-  }): Exchange {
+  static fromJSON(json: ExchangeJSON): Exchange {
     return new Exchange(
       Uuid.fromJSON(json.id),
       parseEnum(Currency, json.fromCurrency),
@@ -112,3 +98,19 @@ export class Exchange {
       .plus(this.#fromTip?.amount);
   }
 }
+
+export type ExchangeJSON = {
+  id: string;
+  fromCurrency: string;
+  fromAmount: string;
+  fromTax: { amount: string; percent: string } | null;
+  fromTip: { amount: string; percent: string } | null;
+  conversions: {
+    currency: string;
+    rate: string;
+    amount: string;
+    tax?: { amount: string; percent: string };
+    tip?: { amount: string; percent: string };
+  }[];
+  exchangedAt: string;
+};

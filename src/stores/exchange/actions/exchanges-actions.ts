@@ -1,8 +1,8 @@
-import { Amount } from "@value-objects/amount";
-import { Conversion } from "@value-objects/conversion";
-import { Exchange } from "@value-objects/exchange";
-import { Quote } from "@value-objects/quote";
-import { Tax } from "@value-objects/tax";
+import { Amount } from "@/value-objects/amount";
+import { Conversion } from "@/value-objects/conversion";
+import { Exchange } from "@/value-objects/exchange";
+import { Quote } from "@/value-objects/quote";
+import { Tax } from "@/value-objects/tax";
 import { Action, ExchangeActions } from "../exchange-actions";
 
 type ExchangesActions = {

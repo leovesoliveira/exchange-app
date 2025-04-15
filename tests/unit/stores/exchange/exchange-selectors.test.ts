@@ -1,13 +1,13 @@
 import {
   exchangesWithoutFirstSelector,
   firstExchangeSelector,
-} from "@stores/exchange/exchange-selectors";
-import { useExchangeStore } from "@stores/exchange/exchange-store";
+} from "@/stores/exchange/exchange-selectors";
+import { useExchangeStore } from "@/stores/exchange/exchange-store";
+import { Amount } from "@/value-objects/amount";
+import { Currency } from "@/value-objects/currency";
+import { Exchange } from "@/value-objects/exchange";
+import { Uuid } from "@/value-objects/uuid";
 import { act } from "@testing-library/react";
-import { Amount } from "@value-objects/amount";
-import { Currency } from "@value-objects/currency";
-import { Exchange } from "@value-objects/exchange";
-import { Uuid } from "@value-objects/uuid";
 
 describe("ExchangeSelectors", () => {
   const mockExchange = (

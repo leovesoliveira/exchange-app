@@ -1,13 +1,13 @@
-import { actions } from "@stores/exchange/exchange-actions";
-import { exchangeMiddleware } from "@stores/exchange/exchange-middleware";
-import { initialState } from "@stores/exchange/exchange-state";
-import { ExchangeStore } from "@stores/exchange/exchange-store";
+import { actions } from "@/stores/exchange/exchange-actions";
+import { exchangeMiddleware } from "@/stores/exchange/exchange-middleware";
+import { initialState } from "@/stores/exchange/exchange-state";
+import { ExchangeStore } from "@/stores/exchange/exchange-store";
+import { Amount } from "@/value-objects/amount";
+import { Currency } from "@/value-objects/currency";
+import { Exchange } from "@/value-objects/exchange";
+import { Quote } from "@/value-objects/quote";
+import { Uuid } from "@/value-objects/uuid";
 import { act } from "@testing-library/react";
-import { Amount } from "@value-objects/amount";
-import { Currency } from "@value-objects/currency";
-import { Exchange } from "@value-objects/exchange";
-import { Quote } from "@value-objects/quote";
-import { Uuid } from "@value-objects/uuid";
 import { create } from "zustand";
 
 describe("ExchangeMiddleware", () => {

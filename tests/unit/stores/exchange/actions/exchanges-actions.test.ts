@@ -1,10 +1,10 @@
-import { exchangesActions } from "@stores/exchange/actions/exchanges-actions";
-import { ExchangeState } from "@stores/exchange/exchange-state";
-import { Amount } from "@value-objects/amount";
-import { Currency } from "@value-objects/currency";
-import { Exchange } from "@value-objects/exchange";
-import { Quote } from "@value-objects/quote";
-import { Uuid } from "@value-objects/uuid";
+import { exchangesActions } from "@/stores/exchange/actions/exchanges-actions";
+import { ExchangeState } from "@/stores/exchange/exchange-state";
+import { Amount } from "@/value-objects/amount";
+import { Currency } from "@/value-objects/currency";
+import { Exchange } from "@/value-objects/exchange";
+import { Quote } from "@/value-objects/quote";
+import { Uuid } from "@/value-objects/uuid";
 
 describe("ExchangesActions", () => {
   let state: ExchangeState;

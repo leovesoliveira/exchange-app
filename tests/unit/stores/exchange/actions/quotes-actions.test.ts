@@ -1,8 +1,8 @@
-import { quotesActions } from "@stores/exchange/actions/quotes-actions";
-import { ExchangeState } from "@stores/exchange/exchange-state";
-import { Amount } from "@value-objects/amount";
-import { Currency } from "@value-objects/currency";
-import { Quote } from "@value-objects/quote";
+import { quotesActions } from "@/stores/exchange/actions/quotes-actions";
+import { ExchangeState } from "@/stores/exchange/exchange-state";
+import { Amount } from "@/value-objects/amount";
+import { Currency } from "@/value-objects/currency";
+import { Quote } from "@/value-objects/quote";
 
 describe("QuotesActions", () => {
   let state: ExchangeState;

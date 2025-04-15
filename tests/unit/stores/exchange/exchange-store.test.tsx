@@ -1,10 +1,10 @@
-import { useExchangeStore } from "@stores/exchange/exchange-store";
+import { useExchangeStore } from "@/stores/exchange/exchange-store";
+import { Amount } from "@/value-objects/amount";
+import { Currency } from "@/value-objects/currency";
+import { Exchange } from "@/value-objects/exchange";
+import { Quote } from "@/value-objects/quote";
+import { Uuid } from "@/value-objects/uuid";
 import { act, renderHook } from "@testing-library/react";
-import { Amount } from "@value-objects/amount";
-import { Currency } from "@value-objects/currency";
-import { Exchange } from "@value-objects/exchange";
-import { Quote } from "@value-objects/quote";
-import { Uuid } from "@value-objects/uuid";
 
 describe("ExchangeStore", () => {
   beforeEach(() => {

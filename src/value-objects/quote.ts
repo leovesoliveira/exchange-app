@@ -1,4 +1,4 @@
-import { parseEnum } from "@helpers/parse-enum";
+import { parseEnum } from "@/helpers";
 import { Amount } from "./amount";
 import { Currency } from "./currency";
 
@@ -13,11 +13,7 @@ export class Quote {
     this.#amount = amount;
   }
 
-  static fromJSON(json: {
-    fromCurrency: string;
-    toCurrency: string;
-    amount: string;
-  }): Quote {
+  static fromJSON(json: QuoteJSON): Quote {
     return new Quote(
       parseEnum(Currency, json.fromCurrency),
       parseEnum(Currency, json.toCurrency),
@@ -45,3 +41,9 @@ export class Quote {
     return this.#amount;
   }
 }
+
+export type QuoteJSON = {
+  fromCurrency: string;
+  toCurrency: string;
+  amount: string;
+};

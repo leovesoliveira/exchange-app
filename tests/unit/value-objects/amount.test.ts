@@ -1,4 +1,4 @@
-import { Amount } from "@value-objects/amount";
+import { Amount } from "@/value-objects/amount";
 
 describe("Amount", () => {
   it("should create an Amount with a valid numeric string", () => {

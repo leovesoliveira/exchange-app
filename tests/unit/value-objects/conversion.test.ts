@@ -1,7 +1,7 @@
-import { Amount } from "@value-objects/amount";
-import { Conversion } from "@value-objects/conversion";
-import { Currency } from "@value-objects/currency";
-import { Tax } from "@value-objects/tax";
+import { Amount } from "@/value-objects/amount";
+import { Conversion } from "@/value-objects/conversion";
+import { Currency } from "@/value-objects/currency";
+import { Tax } from "@/value-objects/tax";
 
 describe("Conversion", () => {
   const validFullJSON = {

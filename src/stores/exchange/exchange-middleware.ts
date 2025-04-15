@@ -1,7 +1,7 @@
-import { parseEnum } from "@helpers/parse-enum";
-import { Currency } from "@value-objects/currency";
-import { Exchange } from "@value-objects/exchange";
-import { Quote } from "@value-objects/quote";
+import { parseEnum } from "@/helpers";
+import { Currency } from "@/value-objects/currency";
+import { Exchange, ExchangeJSON } from "@/value-objects/exchange";
+import { Quote, QuoteJSON } from "@/value-objects/quote";
 import { StateCreator } from "zustand";
 import { persist } from "zustand/middleware";
 import { ExchangeState } from "./exchange-state";
@@ -12,26 +12,30 @@ export const exchangeMiddleware = (
 ) =>
   persist(store, {
     name: "ExchangeStore",
-    onRehydrateStorage: () => (state) => {
+    onRehydrateStorage: () => (store) => {
       const handlers: {
         [K in keyof ExchangeState]: () => void;
       } = {
         fromCurrency: () => {
-          if (state?.fromCurrency) {
-            state.setFromCurrency(parseEnum(Currency, state.fromCurrency));
+          if (store?.fromCurrency) {
+            store.setFromCurrency(parseEnum(Currency, store.fromCurrency));
           }
         },
         quotes: () => {
-          if (state?.quotes && state.quotes.length > 0) {
-            state?.setQuotes(
-              state.quotes.map((quote) => Quote.fromJSON(quote)),
+          if (store?.quotes && store.quotes.length > 0) {
+            store?.setQuotes(
+              store.quotes.map((quote: unknown) =>
+                Quote.fromJSON(quote as QuoteJSON),
+              ),
             );
           }
         },
         exchanges: () => {
-          if (state?.exchanges && state.exchanges.length > 0) {
-            state?.setExchanges(
-              state.exchanges.map((exchange) => Exchange.fromJSON(exchange)),
+          if (store?.exchanges && store.exchanges.length > 0) {
+            store?.setExchanges(
+              store.exchanges.map((exchange: unknown) =>
+                Exchange.fromJSON(exchange as ExchangeJSON),
+              ),
             );
           }
         },

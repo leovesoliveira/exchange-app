@@ -1,8 +1,8 @@
-import { Amount } from "@value-objects/amount";
-import { Currency } from "@value-objects/currency";
-import { Exchange } from "@value-objects/exchange";
-import { Quote } from "@value-objects/quote";
-import { Uuid } from "@value-objects/uuid";
+import { Amount } from "@/value-objects/amount";
+import { Currency } from "@/value-objects/currency";
+import { Exchange } from "@/value-objects/exchange";
+import { Quote } from "@/value-objects/quote";
+import { Uuid } from "@/value-objects/uuid";
 import { exchangesActions } from "./actions/exchanges-actions";
 import { fromCurrencyActions } from "./actions/from-currency-actions";
 import { quotesActions } from "./actions/quotes-actions";

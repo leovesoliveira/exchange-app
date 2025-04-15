@@ -1,4 +1,4 @@
-import { parseEnum } from "@helpers/parse-enum";
+import { parseEnum } from "@/helpers";
 
 enum Color {
   Red = "red",

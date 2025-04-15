@@ -1,6 +1,6 @@
-import { Amount } from "@value-objects/amount";
-import { Currency } from "@value-objects/currency";
-import { Quote } from "@value-objects/quote";
+import { Amount } from "@/value-objects/amount";
+import { Currency } from "@/value-objects/currency";
+import { Quote } from "@/value-objects/quote";
 
 describe("Quote", () => {
   const validJSON = {

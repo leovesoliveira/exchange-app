@@ -1,4 +1,4 @@
-import { Uuid } from "@value-objects/uuid";
+import { Uuid } from "@/value-objects/uuid";
 
 describe("Uuid", () => {
   it("should create a Uuid with a valid UUID v4 string", () => {

@@ -1,4 +1,4 @@
-import { parseEnum } from "@helpers/parse-enum";
+import { parseEnum } from "@/helpers";
 import { Amount } from "./amount";
 import { Currency } from "./currency";
 import { Tax } from "./tax";
@@ -28,8 +28,8 @@ export class Conversion {
     currency: string;
     rate: string;
     amount: string;
-    tax?: { amount: string; percent: string };
-    tip?: { amount: string; percent: string };
+    tax: { amount: string; percent: string } | null;
+    tip: { amount: string; percent: string } | null;
   }): Conversion {
     return new Conversion(
       parseEnum(Currency, json.currency),

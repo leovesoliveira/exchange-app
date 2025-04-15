@@ -24,14 +24,10 @@
 
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@helpers/*": ["src/helpers/*"],
-      "@i18n/*": ["src/i18n/*"],
-      "@stores/*": ["src/stores/*"],
-      "@value-objects/*": ["src/value-objects/*"],
+      "@/*": ["src/*"],
       "@tests/*": ["tests/*"]
     },
     "types": ["vitest/globals"],
   },
-  "include": ["src", "tests"],
+  "include": ["src", "tests"]
 }

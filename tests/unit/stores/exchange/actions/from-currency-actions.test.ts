@@ -1,6 +1,6 @@
-import { fromCurrencyActions } from "@stores/exchange/actions/from-currency-actions";
-import { ExchangeState } from "@stores/exchange/exchange-state";
-import { Currency } from "@value-objects/currency";
+import { fromCurrencyActions } from "@/stores/exchange/actions/from-currency-actions";
+import { ExchangeState } from "@/stores/exchange/exchange-state";
+import { Currency } from "@/value-objects/currency";
 
 describe("FromCurrencyActions", () => {
   let state: ExchangeState;

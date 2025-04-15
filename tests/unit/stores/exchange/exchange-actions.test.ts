@@ -1,10 +1,10 @@
-import { actions } from "@stores/exchange/exchange-actions";
-import { initialState } from "@stores/exchange/exchange-state";
-import { Amount } from "@value-objects/amount";
-import { Currency } from "@value-objects/currency";
-import { Exchange } from "@value-objects/exchange";
-import { Quote } from "@value-objects/quote";
-import { Uuid } from "@value-objects/uuid";
+import { actions } from "@/stores/exchange/exchange-actions";
+import { initialState } from "@/stores/exchange/exchange-state";
+import { Amount } from "@/value-objects/amount";
+import { Currency } from "@/value-objects/currency";
+import { Exchange } from "@/value-objects/exchange";
+import { Quote } from "@/value-objects/quote";
+import { Uuid } from "@/value-objects/uuid";
 
 describe("ExchangeActions", () => {
   let state: typeof initialState;
