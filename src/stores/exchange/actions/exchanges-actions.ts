@@ -21,7 +21,7 @@ export const exchangesActions: ExchangesActions = {
   },
   calculate: (set) => (id, value, taxPercent, tipPercent) => {
     set((state) => {
-      if (!state.fromCurrency || !state.quotes) {
+      if (!state.fromCurrency || state.quotes.length === 0) {
         throw new Error("Missing quote settings");
       }
 

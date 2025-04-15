@@ -17,7 +17,7 @@ export class Amount {
     this.#value = Number(value).toFixed(Amount.SCALE);
   }
 
-  static fromJSON(json: any): Amount {
+  static fromJSON(json: string): Amount {
     return new Amount(json);
   }
 

@@ -22,7 +22,7 @@ export class Uuid {
     return new Uuid(uuid);
   }
 
-  static fromJSON(json: any): Uuid {
+  static fromJSON(json: string): Uuid {
     return new Uuid(json);
   }
 

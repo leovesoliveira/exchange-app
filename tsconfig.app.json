@@ -22,15 +22,16 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    "types": ["node"],
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@components/*": ["components/*"],
-      "@helpers/*": ["helpers/*"],
-      "@i18n/*": ["i18n/*"],
-      "@stores/*": ["stores/*"],
-      "@value-objects/*": ["value-objects/*"]
-    }
+      "@components/*": ["src/components/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@i18n/*": ["src/i18n/*"],
+      "@stores/*": ["src/stores/*"],
+      "@value-objects/*": ["src/value-objects/*"],
+      "@tests/*": ["tests/*"]
+    },
+    "types": ["vitest/globals"],
   },
-  "include": ["src"]
+  "include": ["src", "tests"],
 }

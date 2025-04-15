@@ -285,7 +285,9 @@ export default function App() {
 
       <hr />
 
-      <button onClick={() => clearExchanges()}>Clear Exchanges</button>
+      <button onClick={() => clearExchanges()} className="px-2 bg-gray-300">
+        Clear Exchanges
+      </button>
 
       <div>
         {exchanges.length > 0 ? (

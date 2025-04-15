@@ -9,7 +9,7 @@ import { quotesActions } from "./actions/quotes-actions";
 import { ExchangeState } from "./exchange-state";
 
 export type ExchangeActions = {
-  setFromCurrency: (currency: Currency) => void;
+  setFromCurrency: (currency: Currency | null) => void;
   setQuotes: (quotes: Quote[]) => void;
   clearQuotes: () => void;
   setExchanges: (exchanges: Exchange[]) => void;

@@ -9,7 +9,7 @@ export class Tax {
     this.#percent = percent;
   }
 
-  static fromJSON(json: any): Tax {
+  static fromJSON(json: { amount: string; percent: string }): Tax {
     return new Tax(Amount.fromJSON(json.amount), Amount.fromJSON(json.percent));
   }
 

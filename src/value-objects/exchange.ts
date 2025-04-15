@@ -32,15 +32,35 @@ export class Exchange {
     this.#exchangedAt = date;
   }
 
-  static fromJSON(json: any): Exchange {
+  static fromJSON(json: {
+    id: string;
+    fromCurrency: string;
+    fromAmount: string;
+    fromTax?: { amount: string; percent: string };
+    fromTip?: { amount: string; percent: string };
+    conversions: {
+      currency: string;
+      rate: string;
+      amount: string;
+      tax?: { amount: string; percent: string };
+      tip?: { amount: string; percent: string };
+    }[];
+    exchangedAt: string;
+  }): Exchange {
     return new Exchange(
       Uuid.fromJSON(json.id),
       parseEnum(Currency, json.fromCurrency),
       Amount.fromJSON(json.fromAmount),
       json.fromTax ? Tax.fromJSON(json.fromTax) : null,
       json.fromTip ? Tax.fromJSON(json.fromTip) : null,
-      json.conversions.map((conversion: any) =>
-        Conversion.fromJSON(conversion),
+      json.conversions.map(
+        (conversion: {
+          currency: string;
+          rate: string;
+          amount: string;
+          tax?: { amount: string; percent: string };
+          tip?: { amount: string; percent: string };
+        }) => Conversion.fromJSON(conversion),
       ),
       new Date(json.exchangedAt),
     );

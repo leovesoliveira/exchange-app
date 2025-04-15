@@ -13,7 +13,11 @@ export class Quote {
     this.#amount = amount;
   }
 
-  static fromJSON(json: any): Quote {
+  static fromJSON(json: {
+    fromCurrency: string;
+    toCurrency: string;
+    amount: string;
+  }): Quote {
     return new Quote(
       parseEnum(Currency, json.fromCurrency),
       parseEnum(Currency, json.toCurrency),
