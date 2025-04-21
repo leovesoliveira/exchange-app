@@ -24,13 +24,7 @@ export class Conversion {
     this.#tip = tip;
   }
 
-  static fromJSON(json: {
-    currency: string;
-    rate: string;
-    amount: string;
-    tax: { amount: string; percent: string } | null;
-    tip: { amount: string; percent: string } | null;
-  }): Conversion {
+  static fromJSON(json: ConversionJSON): Conversion {
     return new Conversion(
       parseEnum(Currency, json.currency),
       Amount.fromJSON(json.rate),
@@ -74,3 +68,11 @@ export class Conversion {
     return this.#amount.plus(this.#tax?.amount).plus(this.#tip?.amount);
   }
 }
+
+export type ConversionJSON = {
+  currency: string;
+  rate: string;
+  amount: string;
+  tax: { amount: string; percent: string } | null;
+  tip: { amount: string; percent: string } | null;
+};

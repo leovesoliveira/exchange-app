@@ -1,6 +1,6 @@
 import { parseEnum } from "@/helpers";
 import { Amount } from "./amount";
-import { Conversion } from "./conversion";
+import { Conversion, ConversionJSON } from "./conversion";
 import { Currency } from "./currency";
 import { Tax } from "./tax";
 import { Uuid } from "./uuid";
@@ -39,15 +39,7 @@ export class Exchange {
       Amount.fromJSON(json.fromAmount),
       json.fromTax ? Tax.fromJSON(json.fromTax) : null,
       json.fromTip ? Tax.fromJSON(json.fromTip) : null,
-      json.conversions.map(
-        (conversion: {
-          currency: string;
-          rate: string;
-          amount: string;
-          tax?: { amount: string; percent: string };
-          tip?: { amount: string; percent: string };
-        }) => Conversion.fromJSON(conversion),
-      ),
+      json.conversions.map((conversion) => Conversion.fromJSON(conversion)),
       new Date(json.exchangedAt),
     );
   }
@@ -105,12 +97,6 @@ export type ExchangeJSON = {
   fromAmount: string;
   fromTax: { amount: string; percent: string } | null;
   fromTip: { amount: string; percent: string } | null;
-  conversions: {
-    currency: string;
-    rate: string;
-    amount: string;
-    tax?: { amount: string; percent: string };
-    tip?: { amount: string; percent: string };
-  }[];
+  conversions: ConversionJSON[];
   exchangedAt: string;
 };
