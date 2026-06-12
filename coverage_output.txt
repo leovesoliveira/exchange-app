@@ -1,0 +1,77 @@
+
+> exchange-app@0.0.0 test
+> vitest run
+
+[vite:react-swc] We recommend switching to `@vitejs/plugin-react` for improved performance as no swc plugins are used. More information at https://vite.dev/rolldown
+
+ RUN  v4.1.8 /home/leoves/Personal/exchange-app
+      Coverage enabled with v8
+
+
+ Test Files  15 passed (15)
+      Tests  72 passed (72)
+   Start at  14:40:08
+   Duration  2.26s (transform 1.12s, setup 1.76s, import 1.80s, tests 167ms, environment 20.49s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   41.14 |     30.9 |   38.91 |   38.17 |                   
+ components        |       0 |        0 |       0 |       0 |                   
+  app.tsx          |       0 |        0 |       0 |       0 | 18-46             
+  ...es-button.tsx |       0 |      100 |       0 |       0 | 6-13              
+  country-flag.tsx |       0 |        0 |       0 |       0 | 10-26             
+  ...ncy-input.tsx |       0 |        0 |       0 |       0 | 12-41             
+  ...cy-select.tsx |       0 |        0 |       0 |       0 | 36-148            
+  ...tion-form.tsx |       0 |        0 |       0 |       0 | 17-88             
+  ...ange-card.tsx |       0 |        0 |       0 |       0 | 20-138            
+  ...ange-list.tsx |       0 |        0 |       0 |       0 | 9-24              
+  ...-exchange.tsx |       0 |        0 |       0 |       0 | 5-8               
+  ...selection.tsx |       0 |        0 |       0 |       0 | 9-24              
+  ...selection.tsx |       0 |      100 |       0 |       0 | 13-35             
+  logo.tsx         |       0 |      100 |       0 |       0 | 1-2               
+  ...age-input.tsx |       0 |        0 |       0 |       0 | 10-50             
+  ...anagement.tsx |       0 |        0 |       0 |       0 | 27-157            
+  settings.tsx     |       0 |        0 |       0 |       0 | 21-25             
+  ...-provider.tsx |       0 |        0 |       0 |       0 | 4-25              
+  ...selection.tsx |       0 |      100 |       0 |       0 | 19-32             
+ components/ui     |       0 |        0 |       0 |       0 |                   
+  button.tsx       |       0 |        0 |       0 |       0 | 7-50              
+  card.tsx         |       0 |      100 |       0 |       0 | 6-75              
+  command.tsx      |       0 |        0 |       0 |       0 | 18-153            
+  dialog.tsx       |       0 |      100 |       0 |       0 | 1-115             
+  drawer.tsx       |       0 |      100 |       0 |       0 | 9-110             
+  form.tsx         |       0 |        0 |       0 |       0 | 17-144            
+  input.tsx        |       0 |      100 |       0 |       0 | 6                 
+  label.tsx        |       0 |      100 |       0 |       0 | 1-12              
+  popover.tsx      |       0 |        0 |       0 |       0 | 9-43              
+  scroll-area.tsx  |       0 |        0 |       0 |       0 | 11-34             
+  select.tsx       |       0 |        0 |       0 |       0 | 10-158            
+  separator.tsx    |       0 |        0 |       0 |       0 | 12                
+  sheet.tsx        |       0 |        0 |       0 |       0 | 8-119             
+ helpers           |   63.63 |    33.33 |      20 |   63.63 |                   
+  formatter.ts     |      50 |        0 |       0 |      50 | 2,11,18,24        
+ hooks             |       0 |        0 |       0 |       0 |                   
+  ...dia-query.tsx |       0 |        0 |       0 |       0 | 4-19              
+ lib               |       0 |      100 |       0 |       0 |                   
+  utils.ts         |       0 |      100 |       0 |       0 | 5                 
+ stores/interface  |       0 |      100 |       0 |       0 |                   
+  ...ce-actions.ts |       0 |      100 |     100 |       0 | 12                
+  ...middleware.ts |       0 |      100 |       0 |       0 | 5-6               
+  ...face-state.ts |       0 |      100 |     100 |       0 | 5                 
+  ...face-store.ts |       0 |      100 |       0 |       0 | 8-9               
+ ...erface/actions |       0 |      100 |       0 |       0 |                   
+  theme-actions.ts |       0 |      100 |       0 |       0 | 7-9               
+-------------------|---------|----------|---------|---------|-------------------
+
+=============================== Coverage summary ===============================
+Statements   : 41.14% ( 202/491 )
+Branches     : 30.9% ( 51/165 )
+Functions    : 38.91% ( 93/239 )
+Lines        : 38.17% ( 176/461 )
+================================================================================
+ERROR: Coverage for lines (38.17%) does not meet global threshold (80%)
+ERROR: Coverage for functions (38.91%) does not meet global threshold (80%)
+ERROR: Coverage for statements (41.14%) does not meet global threshold (80%)
+ERROR: Coverage for branches (30.9%) does not meet global threshold (80%)
