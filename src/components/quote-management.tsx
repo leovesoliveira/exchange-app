@@ -1,21 +1,25 @@
-import { parseEnum } from "@/helpers";
+import { buildValidQuotes } from "@/helpers";
+import { useDebouncedEffect } from "@/hooks/use-debounced-effect";
 import { useExchangeStore } from "@/stores/exchange/exchange-store";
-import { Amount } from "@/value-objects/amount";
 import { Currency } from "@/value-objects/currency";
-import { Quote } from "@/value-objects/quote";
-import { ArrowRightLeftIcon, PlusIcon, Trash2Icon } from "lucide-react";
-import { useEffect } from "react";
 import {
-  Controller,
-  SubmitHandler,
-  useFieldArray,
-  useForm,
-} from "react-hook-form";
+  ArrowRightLeftIcon,
+  CheckIcon,
+  PlusIcon,
+  Trash2Icon,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { CurrencyInput } from "./currency-input";
 import { CurrencySelect } from "./currency-select";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
+
+const AUTOSAVE_DELAY = 600;
+const SAVED_FEEDBACK_DURATION = 2000;
+
+type SaveStatus = "idle" | "saving" | "saved";
 
 type QuotesFormData = {
   quotes: {
@@ -27,6 +31,8 @@ type QuotesFormData = {
 export const QuoteManagement = () => {
   const { t, i18n } = useTranslation();
   const { fromCurrency, quotes, setQuotes } = useExchangeStore();
+
+  const [status, setStatus] = useState<SaveStatus>("idle");
 
   const quotesForm = useForm<QuotesFormData>({
     defaultValues: {
@@ -40,40 +46,62 @@ export const QuoteManagement = () => {
     },
   });
 
-  useEffect(() => {
-    quotesForm.reset({
-      quotes:
-        quotes && quotes.length > 0
-          ? quotes.map((quote) => ({
-              toCurrency: quote.toCurrency.toString(),
-              toAmount: parseFloat(quote.amount.toString()),
-            }))
-          : [],
-    });
-  }, [quotes]);
-
   const { fields, append, remove } = useFieldArray({
     name: "quotes",
     control: quotesForm.control,
   });
 
-  const handleQuote: SubmitHandler<QuotesFormData> = (data) => {
-    if (!fromCurrency) {
-      throw new Error("From currency is not set");
+  // The form is the single source of truth while editing; autosave flows
+  // one-way form -> store, so we watch the form rather than the store.
+  const watchedQuotes = useWatch({
+    control: quotesForm.control,
+    name: "quotes",
+  });
+
+  // `isDirty` is true only after the user actually edits a field, so it tells
+  // real changes apart from the form merely initializing when the panel opens.
+  const { isDirty } = quotesForm.formState;
+
+  // Show "saving" as soon as the user changes the form.
+  useEffect(() => {
+    if (!isDirty) {
+      return;
     }
 
-    const quotes = data.quotes.map((quote) => {
-      const toCurrency = parseEnum(Currency, quote.toCurrency);
-      const toAmount = new Amount(quote.toAmount.toString());
-      return new Quote(fromCurrency, toCurrency, toAmount);
-    });
+    setStatus("saving");
+  }, [watchedQuotes, isDirty]);
 
-    setQuotes(quotes);
-  };
+  // Persist the valid rows once the user stops typing.
+  useDebouncedEffect(
+    () => {
+      if (!isDirty || !fromCurrency) {
+        return;
+      }
+
+      setQuotes(buildValidQuotes(fromCurrency, watchedQuotes ?? []));
+      setStatus("saved");
+    },
+    [watchedQuotes],
+    AUTOSAVE_DELAY,
+  );
+
+  // Auto-hide the "saved" confirmation after a short while.
+  useEffect(() => {
+    if (status !== "saved") {
+      return;
+    }
+
+    const timeout = setTimeout(
+      () => setStatus("idle"),
+      SAVED_FEEDBACK_DURATION,
+    );
+
+    return () => clearTimeout(timeout);
+  }, [status]);
 
   return (
     <div className="px-4">
-      <div className="flex items-center justify-between">
+      <div className="flex min-h-9 items-center justify-between">
         <h3 className="flex items-center gap-2">
           <ArrowRightLeftIcon width={20} height={20} />
 
@@ -82,12 +110,18 @@ export const QuoteManagement = () => {
           </span>
         </h3>
 
-        <Button
-          variant="outline"
-          onClick={quotesForm.handleSubmit(handleQuote)}
-        >
-          {t("quote.management.save")}
-        </Button>
+        {status === "saving" && (
+          <span className="text-muted-foreground text-sm">
+            {t("quote.management.saving")}
+          </span>
+        )}
+
+        {status === "saved" && (
+          <span className="text-muted-foreground flex items-center gap-1 text-sm">
+            <CheckIcon width={16} height={16} />
+            {t("quote.management.saved")}
+          </span>
+        )}
       </div>
 
       <form className="my-2">

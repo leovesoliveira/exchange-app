@@ -11,44 +11,23 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
+      pwaAssets: {
+        config: true,
+        overrideManifestIcons: true,
+      },
       manifest: {
-        name: "ExchangeApp",
-        short_name: "ExchangeApp",
-        description: "Meu aplicativo React que funciona offline!",
-        theme_color: "#ffffff",
-        background_color: "#ffffff",
+        name: "Exchange App",
+        short_name: "Exchange",
+        description:
+          "Convert between currencies quickly, with taxes and tips. Works offline.",
+        lang: "en",
+        theme_color: "#0f172b",
+        background_color: "#0f172b",
         display: "standalone",
         start_url: "/",
-        icons: [
-          {
-            src: "/logo-192.png",
-            sizes: "192x192",
-            type: "image/png",
-          },
-          {
-            src: "/log-512.png",
-            sizes: "512x512",
-            type: "image/png",
-          },
-        ],
       },
       workbox: {
-        runtimeCaching: [
-          {
-            urlPattern: ({ request }) =>
-              request.destination === "document" ||
-              request.destination === "script" ||
-              request.destination === "style",
-            handler: "NetworkFirst",
-            options: {
-              cacheName: "app-cache",
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24 * 30,
-              },
-            },
-          },
-        ],
+        globPatterns: ["**/*.{js,css,html,svg,png,ico,webmanifest,woff,woff2}"],
       },
     }),
   ],
